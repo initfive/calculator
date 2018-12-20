@@ -108,21 +108,21 @@
         }
 
         toggleColor() {
+          let currentState = this.state;
+
           this.setState({
-            if (btnClicked: false) {
-              btnClicked: !this.state.btnClicked,
-              btn = {"backgroundColor": "tomato"}
-            }, else (btnClicked: true) {
-              btnClicked: !this.state.btnClicked,
-              btn = {"backgroundColor": "lightgray"}
-            }
+            btnClicked: !currentState.btnClicked
           });
         }
 
-      render() {
+      render(){
         return (
-          <div onClick={this.calcBtnColor} onClick={this.handleClick} className="calcBtn">
-          { this.props.value }
+          <div style={{"backgroundColor" : ((this.state.btnClicked === true) ? "lightyellow" : "lightgray")}}
+               onClick={this.handleClick}
+               onMouseDown={this.toggleColor}
+               onMouseUp={this.toggleColor}
+               className="calcBtn">
+            {this.props.value}
           </div>
         );
       }
