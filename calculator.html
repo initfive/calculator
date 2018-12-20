@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500" rel="stylesheet">
+    <style>
+
+    #container {
+      width: 100vw;
+      height: 100vh;
+      background-color: lightgray;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    * {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 30px;
+      margin: 0;
+      padding: 0;
+      outline: 0;
+      box-sizing: border-box;
+    }
+
+    .calculator {
+      background-color: #fff;
+      height: 500px;
+      width: 400px;
+      border-right: 5px #fff solid;
+    }
+
+    .calcDisplay {
+      background-color: lightblue;
+      color: #202020;
+      height: 20%;
+      display: flex;
+      padding: 30px;
+      border-top: 5px #fff solid;
+      border-bottom: 5px #fff solid;
+      border-left: 5px #fff solid;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .calcBtn {
+      padding: 10px;
+      width: 25%;
+      height: 100px;
+      background-color: lightgray;
+      color: #202020;
+      border-bottom: 5px #fff solid;
+      border-left: 5px #fff solid;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      cursor: pointer;
+    }
+
+    .btn__grid {
+      align-items: center;
+      justify-content: flex-end;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .btnPlus {
+      background-color: red;
+      color: black;
+    }
+
+    </style>
+    <meta charset="utf-8"><script src="build/react.js"></script><script src="build/react-dom.js"></script><script src="build/browser.js"></script>
+    <title>React Calculator</title>
+  </head>
+  <body>
+    <div id="container"></div>
+
+    <script type="text/babel">
+
+    const btnPlus = {
+      "backgroundColor": "red",
+      "color": "black"
+    };
+
+    class CalcDisplay extends React.Component {
+      render() {
+        return (
+          <div className="calcDisplay">
+          { this.props.displayNumber }
+          </div>
+        )
+      }
+    }
+
+    class CalcBtn extends React.Component {
+      constructor(props) {
+        super(props);
+
+        this.state = {
+          btnClicked: false,
+        };
+        this.handleClick = this.handleClick.bind(this);
+        this.toggleColor = this.toggleColor.bind(this);
+      }
+
+        handleClick() {
+          this.props.onBtnClick(this.props.value);
+        }
+
+        toggleColor() {
+          this.setState({
+            if (btnClicked: false) {
+              btnClicked: !this.state.btnClicked,
+              btn = {"backgroundColor": "tomato"}
+            }, else (btnClicked: true) {
+              btnClicked: !this.state.btnClicked,
+              btn = {"backgroundColor": "lightgray"}
+            }
+          });
+        }
+
+      render() {
+        return (
+          <div onClick={this.calcBtnColor} onClick={this.handleClick} className="calcBtn">
+          { this.props.value }
+          </div>
+        );
+      }
+    }
+
+    class Calculator extends React.Component {
+
+      static get defaultState() {
+        return {
+          operand1: undefined,
+          operation: undefined,
+          number: true,
+          displayNumber:"0"
+        }
+      }
+
+      constructor(props) {
+        super(props);
+        this.state = Calculator.defaultState;
+
+        this.updateNumber = this.updateNumber.bind(this);
+        this.operation = this.operation.bind(this);
+        this.calculation = this.calculation.bind(this);
+        this.clear = this.clear.bind(this);
+
+      }
+
+      updateNumber(value){
+        let newDisplyNumber;
+        if(this.state.number) {
+          newDisplyNumber = value;
+        } else
+        { newDisplyNumber = `${this.state.displayNumber}${value}` } //concatination without + sign
+        this.setState({
+          number: false,
+          displayNumber: newDisplyNumber
+        })
+      }
+
+      operation(operation) {
+        this.setState({
+          operation,
+          operand1: this.state.displayNumber,
+          number: true
+        })
+      }
+
+      calculation() {
+        let result = 0;
+
+        switch(this.state.operation) {
+          case "+":
+          result = (Number.parseFloat(this.state.operand1)) + (Number.parseFloat(this.state.displayNumber));
+          break;
+          case "-":
+          result = (Number.parseFloat(this.state.operand1)) - (Number.parseFloat(this.state.displayNumber));
+          break;
+          default:
+          break;
+        }
+
+        this.setState({
+          operation: undefined,
+          operand1: undefined,
+          displayNumber: result
+        });
+      }
+
+      clear(){
+        this.setState(Calculator.defaultState)
+      }
+
+      render() {
+        return (
+          <div className="calculator">
+            <CalcDisplay displayNumber={this.state.displayNumber} />
+            <div className="btn__grid">
+              <CalcBtn value="1" onBtnClick={this.updateNumber} />
+              <CalcBtn value="2" onBtnClick={this.updateNumber} />
+              <CalcBtn value="3" onBtnClick={this.updateNumber} />
+              <CalcBtn value="+" onBtnClick={this.operation} />
+              <CalcBtn value="4" onBtnClick={this.updateNumber} />
+              <CalcBtn value="5" onBtnClick={this.updateNumber} />
+              <CalcBtn value="6" onBtnClick={this.updateNumber} />
+              <CalcBtn value="-" onBtnClick={this.operation} />
+              <CalcBtn value="7" onBtnClick={this.updateNumber} />
+              <CalcBtn value="8" onBtnClick={this.updateNumber} />
+              <CalcBtn value="9" onBtnClick={this.updateNumber} />
+              <CalcBtn value="C" onBtnClick={this.clear} />
+              <CalcBtn value="0" onBtnClick={this.updateNumber} />
+              <CalcBtn value="." onBtnClick={this.updateNumber} />
+              <CalcBtn value="=" onBtnClick={this.calculation} />
+            </div>
+          </div>
+        )
+      }
+    }
+
+    ReactDOM.render(
+      <Calculator />,
+      document.getElementById('container')
+    )
+</script></body></html>
