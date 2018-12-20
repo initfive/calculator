@@ -4,15 +4,6 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500" rel="stylesheet">
     <style>
 
-    #container {
-      width: 100vw;
-      height: 100vh;
-      background-color: lightgray;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
     * {
       font-family: 'Roboto Mono', monospace;
       font-size: 30px;
@@ -20,6 +11,15 @@
       padding: 0;
       outline: 0;
       box-sizing: border-box;
+    }
+
+    #container {
+      width: 100vw;
+      height: 100vh;
+      background-color: lightgray;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .calculator {
@@ -75,13 +75,9 @@
   <body>
     <div id="container"></div>
 
+
     <script type="text/babel">
-
-    const btnPlus = {
-      "backgroundColor": "red",
-      "color": "black"
-    };
-
+    // display component
     class CalcDisplay extends React.Component {
       render() {
         return (
@@ -92,6 +88,7 @@
       }
     }
 
+    // button component
     class CalcBtn extends React.Component {
       constructor(props) {
         super(props);
@@ -103,17 +100,19 @@
         this.toggleColor = this.toggleColor.bind(this);
       }
 
-        handleClick() {
-          this.props.onBtnClick(this.props.value);
-        }
+      // adds button value to props
+      handleClick() {
+        this.props.onBtnClick(this.props.value);
+      }
 
-        toggleColor() {
-          let currentState = this.state;
+      // handles change of button color
+      toggleColor() {
+        let currentState = this.state;
 
-          this.setState({
-            btnClicked: !currentState.btnClicked
-          });
-        }
+        this.setState({
+          btnClicked: !currentState.btnClicked
+        });
+      }
 
       render(){
         return (
@@ -128,8 +127,10 @@
       }
     }
 
+    // calculator parent component
     class Calculator extends React.Component {
 
+      // default state that gets initialied when we load the app or click "C" buttton
       static get defaultState() {
         return {
           operand1: undefined,
@@ -147,11 +148,12 @@
         this.operation = this.operation.bind(this);
         this.calculation = this.calculation.bind(this);
         this.clear = this.clear.bind(this);
-
       }
 
-      updateNumber(value){
+      // handles number concatination
+      updateNumber(value) {
         let newDisplyNumber;
+
         if(this.state.number) {
           newDisplyNumber = value;
         } else
@@ -162,6 +164,7 @@
         })
       }
 
+      // handles + and  - operations
       operation(operation) {
         this.setState({
           operation,
@@ -170,6 +173,7 @@
         })
       }
 
+      // handles whole calculation
       calculation() {
         let result = 0;
 
@@ -191,7 +195,8 @@
         });
       }
 
-      clear(){
+      // resets calculator
+      clear() {
         this.setState(Calculator.defaultState)
       }
 
@@ -225,4 +230,6 @@
       <Calculator />,
       document.getElementById('container')
     )
-</script></body></html>
+</script>
+</body>
+</html>
